@@ -1,0 +1,27 @@
+#!/bin/bash
+#exit
+# Stoppa eventuell startup film
+sudo killall -9 omxplayer.bin
+sudo killall -9 omxplayer
+
+sudo modprobe snd-bcm2835
+sudo modprobe i2c-bcm2708
+sudo modprobe i2c-dev
+
+# Starta carpc-controller
+sudo killall -9 carpc-controller
+sudo carpc-controller /opt/carpc/config/gpio_description &
+
+# Ställ in analog ljud ut
+amixer cset numid=3 1
+
+# Ställ in ljud volym på 100%
+amixer cset numid=1 100%
+
+# Ta bort X11 pekare
+#unclutter -display :0 -noevents -grab
+
+# Ta bort skärm blanking
+xset s off         # aktivera inte skärmsläckare
+xset -dpms         # avaktivera energi spar läge
+xset s noblank     # blanka inte video
